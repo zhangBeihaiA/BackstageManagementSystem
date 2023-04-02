@@ -7,7 +7,7 @@
         <el-card class="box-card">
           <!-- 管理员头像和登录地址 -->
           <div class="user">
-            <img src="../../assets/images/user.png" alt="" />
+            <img src="../../assets/images/boy.jpeg" alt="" />
             <div class="userInfo">
               <p class="name">Admin</p>
               <p class="access">超级管理员</p>

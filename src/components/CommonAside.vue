@@ -90,6 +90,9 @@ export default {
       if(this.$route.path !== item.path && !(this.$route.path === '/home' && this.$route.path==='/')){
         this.$router.push(item.path)
       }
+
+      this.$store.commit('selectMenu',item)
+
       
     }
   },
