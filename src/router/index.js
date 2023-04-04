@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter)
+import Cookie from 'js-cookie'
 import Home from '../views/Home'
 import User from '../views/User'
 import Main from '../views/Main'
@@ -9,7 +10,8 @@ import PageOne from '../views/PageOne'
 import PageTwo from '../views/PageTwo'
 import Login from '../views/Login'
 
-export default new VueRouter({
+
+let router =  new VueRouter({
     routes: [
         //主路由
         {
@@ -48,6 +50,7 @@ export default new VueRouter({
         //登录页面
         {
             path:'/login',
+            name:'login',
             component:Login
 
         }
@@ -55,3 +58,27 @@ export default new VueRouter({
     ]
 })
 
+//导航守卫
+router.beforeEach((to,from,next)=>{
+    //判断token不存在
+    const token = Cookie.get('token')
+    console.log(token)
+    // if(!token && to.name !=='login'){
+    //     next({name:'login'})
+    // }else if(token &&to.name=='login'){
+    //     next({name:from.name})
+    // }else{
+    //     next()
+    //     console.log(1)
+    // }
+    if(!token && to.path == '/login'){
+        next()
+    }else if(!token && to.path !=='/login'){
+        next('/login')
+    }else if(token && to.path=='/login'){
+        next({path:from.path})
+    }else{
+        next()
+    }
+})
+export default router

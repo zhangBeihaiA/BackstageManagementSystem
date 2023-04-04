@@ -9,13 +9,13 @@
     </div>
     <div class="r-content">
         <!-- 下拉菜单 -->
-      <el-dropdown>
+      <el-dropdown @command="logOut">
         <span class="el-dropdown-link">
           <img class="user" src="@/assets/images/boy.jpeg" alt="">
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>个人中心</el-dropdown-item>
-          <el-dropdown-item>退出</el-dropdown-item>
+          <el-dropdown-item command="a">退出</el-dropdown-item>
           <el-dropdown-item>兔兔</el-dropdown-item>
           <el-dropdown-item>天暗</el-dropdown-item>
         </el-dropdown-menu>
@@ -26,6 +26,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import Cookie from 'js-cookie'
 export default {
   name:'CommonHeader',
   data(){
@@ -36,6 +37,15 @@ export default {
   methods:{
     handleMenu(){
       this.$store.commit('collapseMenu')
+    },
+    //退出登录
+    logOut(command){
+      if(command == 'a'){
+        Cookie.remove('token')
+        this.$router.push('/login')
+        this.$message({type:'success',message:'退出成功！'})
+      }
+      
     }
   },
   computed:{

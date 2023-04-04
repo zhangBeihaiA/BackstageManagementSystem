@@ -14,3 +14,5 @@ export const addUser = (data)=>http({url:'/user/add',method:'post',data})
 export const editUser = (data)=>http({url:'/user/edit',method:'post',data})
 //删除用户
 export const deleteUser = (data)=>http({url:'/user/delete',method:'post',data})
+//登录权限
+export const getMenu = (data)=> http.post('/permission/getMenu',data)
