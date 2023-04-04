@@ -47,40 +47,59 @@
     </el-dialog>
     <div class="manage-header">
       <el-button type="primary" @click="handleAdd()"> + 新增 </el-button>
-      <!-- <el-form>搜索区</el-form> -->
+      <!-- 搜索区 -->
+      <el-form :model="userForm" inline>
+        <el-form-item>
+          <el-input placeholder="请输入姓名" v-model="userForm.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">查询</el-button>
+        </el-form-item>
+      </el-form>
     </div>
-    <!-- 表格 -->
-    <el-table :data="tableData" height="90%" style="width: 100%">
-      <el-table-column prop="name" label="姓名"> </el-table-column>
-      <el-table-column prop="sex" label="性别">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{
-            scope.row.sex == 1 ? "男" : "女"
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="age" label="年龄"></el-table-column>
-      <el-table-column prop="birth" label="出生日期"> </el-table-column>
-      <el-table-column prop="addr" label="地址"> </el-table-column>
-      <el-table-column label="管理">
-        <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="handleEdit(scope.row)"
-            >编辑</el-button
-          >
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row)"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+    <div class="common-table" style="height:100%">
+      <!-- 表格 -->
+      <el-table :data="tableData" height="80%" style="width: 100%" stripe>
+        <el-table-column prop="name" label="姓名"> </el-table-column>
+        <el-table-column prop="sex" label="性别">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{
+              scope.row.sex == 1 ? "男" : "女"
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="age" label="年龄"></el-table-column>
+        <el-table-column prop="birth" label="出生日期"> </el-table-column>
+        <el-table-column prop="addr" label="地址"> </el-table-column>
+        <el-table-column label="管理">
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="handleEdit(scope.row)"
+              >编辑</el-button
+            >
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.row)"
+              >删除</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pager">
+        <!-- 分页器 -->
+        <el-pagination
+          layout="->,prev,pager,next"
+          :total="total"
+          @current-change="handlePage"
+        >
+        </el-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { getUser, addUser, editUser,deleteUser } from "@/api";
+import { getUser, addUser, editUser, deleteUser } from "@/api";
 export default {
   name: "User",
   mounted() {
@@ -105,9 +124,25 @@ export default {
       },
       tableData: [],
       modelType: 0, // 0表示新增 1表示编辑
+      total: 0,
+      pageData: {
+        page: 1,
+        limit: 10,
+      },
+      userForm:{
+        name:''
+      }
     };
   },
   methods: {
+    //获取列表数据
+    getList() {
+      getUser({ params: { ...this.pageData,...this.userForm } }).then((data) => {
+        // console.log(data.data);
+        this.tableData = data.data.list;
+        this.total = data.data.count || 0;
+      });
+    },
     //提交用户表单
     submit() {
       this.$refs.form.validate((valid) => {
@@ -130,15 +165,6 @@ export default {
           this.$refs.form.resetFields();
           this.dialogVisible = false;
         }
-          
-        
-      });
-    },
-    //获取列表数据
-    getList() {
-      getUser().then((data) => {
-        console.log(data.data.list);
-        this.tableData = data.data.list;
       });
     },
     //
@@ -168,15 +194,13 @@ export default {
         type: "warning",
       })
         .then(() => {
-          deleteUser({id:row.id}).then(()=>{
+          deleteUser({ id: row.id }).then(() => {
             this.$message({
-            type: "success",
-            message: "删除成功!",
+              type: "success",
+              message: "删除成功!",
+            });
+            this.getList();
           });
-          this.getList()
-          })
-          
-          
         })
         .catch(() => {
           this.$message({
@@ -185,19 +209,44 @@ export default {
           });
         });
     },
-    
+
     //点击新增
     handleAdd() {
       // this.$refs.form.resetFields();
       this.modelType = 0;
       this.dialogVisible = true;
     },
+    //选择页码的回调函数
+    handlePage(val) {
+      console.log(val);
+      this.pageData.page = val;
+      this.getList();
+    },
+    //列表的查询
+    onSubmit(){
+      this.getList()
+    }
   },
+  
 };
 </script>
 
-<style>
-.manage{
+<style lang="less" scoped>
+.manage {
   height: 90%;
+  // .common-table{
+  //   position: relative;
+  //   height:calc(100% - 62px)
+  //   .pager{
+  //     position: absolute;
+  //     bottom: 0;
+  //     right: 20px;
+  //   }
+  // }
+  manage-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 </style>

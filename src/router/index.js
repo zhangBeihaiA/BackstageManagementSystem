@@ -7,6 +7,7 @@ import Main from '../views/Main'
 import Mall from '../views/Mall'
 import PageOne from '../views/PageOne'
 import PageTwo from '../views/PageTwo'
+import Login from '../views/Login'
 
 export default new VueRouter({
     routes: [
@@ -44,6 +45,12 @@ export default new VueRouter({
                 },
             ]
         },
+        //登录页面
+        {
+            path:'/login',
+            component:Login
+
+        }
         
     ]
 })
