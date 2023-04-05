@@ -1,7 +1,7 @@
 import {reqGetGoodsInfo} from '../api'
 
 const state = {
-    goodsList: []
+    goodsList: {}
 }
 const mutations = {
     GETGOODSINFO(state,data){
@@ -18,8 +18,11 @@ const actions = {
     }
 }
 const getters = {
-    searchList(){
+    searchList(state){
         return state.goodsList.goodsList || []
+    },
+    total(){
+
     }
 }
 export default{
