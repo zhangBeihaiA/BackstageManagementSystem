@@ -42,6 +42,8 @@ export default {
     logOut(command){
       if(command == 'a'){
         Cookie.remove('token')
+        //清除menu
+        localStorage.removeItem('menu')
         this.$router.push('/login')
         this.$message({type:'success',message:'退出成功！'})
       }

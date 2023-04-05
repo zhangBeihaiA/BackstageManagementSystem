@@ -17,34 +17,14 @@ let router =  new VueRouter({
         {
             path:'/',
             component:Main,
+            name:'Main',
             redirect:'/home', //重定向
             children:[
-                //子路由
-                {
-                    path: '/home',
-                    name:'home',
-                    component: Home
-                },
-                {
-                    path: '/user',
-                    name:'user',
-                    component: User
-                },
-                {
-                    path:'/mall',
-                    name:'mall',
-                    component:Mall
-                },
-                {
-                    path:'/page1',
-                    name:'page1',
-                    component:PageOne
-                },
-                {
-                    path:'/page2',
-                    name:'page2',
-                    component:PageTwo
-                },
+                // {path: '/home',name:'home',component: Home},
+                // {path: '/user', name:'user',component: User},
+                // {path: '/mall',name:'mall',component:Mall},
+                // {path: '/page1',name:'page1',component:PageOne},
+                // {path: '/page2',name:'page2',component:PageTwo},
             ]
         },
         //登录页面

@@ -49,10 +49,16 @@ export default {
             //   console.log(data)
             // })
             const result = await getMenu(this.form)
+            console.log(result)  //result.data.data.menu
             if(result.data.code==20000){
                 Cookie.set('token',result.data.data.token)
+                //获取菜单的数据
+                this.$store.commit('setMenu',result.data.data.menu)
+                //登录的时候动态注册路由
+                this.$store.commit('addMenu',this.$router)
                 this.$router.push('/home')
                 this.$message({type:'success',message:'登录成功！'})
+                
             }
             else{
               this.$message.error("用户名或密码错误！")

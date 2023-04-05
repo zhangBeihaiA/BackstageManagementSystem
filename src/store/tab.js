@@ -9,7 +9,8 @@ export default{
                 icon:"s-home",
                 url:"Home/home"
             }
-        ] //面包屑
+        ], //面包屑
+        menu:[]
     },
 
     mutations:{
@@ -32,6 +33,40 @@ export default{
         closeTag(state,item){
             const index = state.tabList.findIndex( val=> val.name == item.name)
             state.tabList.splice(index,1)
+        },
+        //
+        setMenu(state,val){
+            state.menu = val
+            localStorage.setItem('menu',JSON.stringify(val))
+        },
+
+        //动态注册路由
+        addMenu(state,router){
+            //判断缓存中是否有数据
+            if(!localStorage.getItem('menu')) return
+            const menu = JSON.parse(localStorage.getItem('menu'))
+            state.menu = menu
+            //组合动态路由的数据
+            const menuArray = []
+            menu.forEach(item =>{
+                if(item.children){ 
+                    //map方法会返回一个新的数组
+                    item.children = item.children.map(chil =>{
+                        chil.component = ()=>import(`../views/${chil.url}`) //return 一个import的调用
+                        return chil
+                    })
+                    menuArray.push(...item.children)
+                }else{
+                    item.component = ()=>import(`../views/${item.url}`)
+                    menuArray.push(item)
+                }
+            })
+            console.log(menuArray,"menuArray")
+            //路由的动态添加
+            menuArray.forEach(item =>{
+                router.addRoute('Main',item)
+            })
+            
         }
 
     }
