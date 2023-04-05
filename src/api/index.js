@@ -1,4 +1,8 @@
 import http from '../utils/request'
+import request from '../api/ajax'
+
+//请求商品数据
+export const reqGetGoodsInfo = (data)=> request({url:'/api/list',method:'post',data})
 
 //请求首页数据
 export const getData = ()=> http({url:'/home/getData',method:'get'})

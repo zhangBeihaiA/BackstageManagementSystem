@@ -60,7 +60,7 @@
     <div class="common-table" style="height:100%">
       <!-- 表格 -->
       <el-table :data="tableData" height="80%" style="width: 100%" stripe>
-        <el-table-column prop="name" label="姓名"> </el-table-column>
+        <el-table-column prop="name" label="姓名" > </el-table-column>
         <el-table-column prop="sex" label="性别">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{
