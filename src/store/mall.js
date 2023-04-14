@@ -21,8 +21,8 @@ const getters = {
     searchList(state){
         return state.goodsList.goodsList || []
     },
-    total(){
-
+    total(state){
+        return state.goodsList.total
     }
 }
 export default{

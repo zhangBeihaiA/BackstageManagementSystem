@@ -243,7 +243,7 @@ export default {
   //     right: 20px;
   //   }
   // }
-  manage-header{
+  .manage-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
