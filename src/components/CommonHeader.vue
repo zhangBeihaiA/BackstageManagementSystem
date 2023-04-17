@@ -16,8 +16,6 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>个人中心</el-dropdown-item>
           <el-dropdown-item command="a">退出</el-dropdown-item>
-          <el-dropdown-item>兔兔</el-dropdown-item>
-          <el-dropdown-item>天暗</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>

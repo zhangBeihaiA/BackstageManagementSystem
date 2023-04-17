@@ -45,18 +45,17 @@ export default {
       totalPage: 0,
     };
   },
-  mounted() {
+  created() {
     this.getSearchList();
-  
-    console.log(this.searchList);
-    console.log(this.tableData);
   },
   methods: {
     getSearchList() {
       this.$store.dispatch("getGoodsInfo", this.categoryList);
       // console.log(this.$store.getters.searchList);
-      this.tableData = this.searchList;
-      this.totalPage = this.total || 0;
+      // this.tableData = this.searchList;
+      // this.totalPage = this.total || 0;
+    this.tableData = JSON.parse(sessionStorage.getItem('goodsList'))
+    this.totalPage = JSON.parse(sessionStorage.getItem('total'))
       
     },
     //改变页码
@@ -66,14 +65,14 @@ export default {
       console.log("切换页码",currentPage)
     },
   },
-  computed: {
-    ...mapGetters({
-      searchList: "searchList",
-    }),
-    ...mapGetters({
-      total: "total",
-    }),
-  },
+  // computed: {
+  //   ...mapGetters({
+  //     searchList: "searchList",
+  //   }),
+  //   ...mapGetters({
+  //     total: "total",
+  //   }),
+  // },
 };
 </script>
 
